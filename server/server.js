@@ -481,7 +481,7 @@ io.on('connection', (socket) => {
             num = 1;
           } else {
             data.id = result[num - 1].id + 1;
-            //num = data.id;
+            num = data.id;
           }
           var game = data;
           dbo.collection('kahootGames').insertOne(game, function (err, res) {
