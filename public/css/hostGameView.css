@@ -79,6 +79,10 @@ body {
 }
 #playersAnswered {
   font-family: 'Tajawal', sans-serif;
+  display: block;
+  text-align: center;
+  font-size: 20px;
+  color: blue;
 }
 #questionNum {
   font-family: 'Tajawal', sans-serif;

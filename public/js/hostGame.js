@@ -42,7 +42,7 @@ socket.on('questionOver', function (playerData, correct) {
   var answer4 = 0;
   var total = 0;
   //Hide elements on page
-  document.getElementById('playersAnswered').style.display = 'none';
+  //document.getElementById('playersAnswered').style.display = 'none';
   document.getElementById('timerText').style.display = 'none';
 
   //Shows user correct answer with effects on elements
@@ -129,6 +129,8 @@ function updateTimer() {
     document.getElementById('num').textContent = ' ' + time;
     if (time == 0) {
       socket.emit('timeUp');
+      clearInterval(timer);
+      document.getElementById('timerText').style.display = 'none';
     }
   }, 1000);
 }

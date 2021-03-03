@@ -3,6 +3,8 @@ var playerAnswered = false;
 var correct = false;
 var name;
 var score = 0;
+var time = 20;
+var timer;
 var gvar;
 var params = jQuery.deparam(window.location.search); //Gets the id from url
 
@@ -13,6 +15,7 @@ socket.on('connect', function () {
 
   socket.emit('getCurrentQuestion');
   socket.on('currentQuestion', function (data) {
+    updateTimer();
     gvar = data;
     console.log(data);
     document.getElementById('question').innerHTML = gvar.data.question;
@@ -20,30 +23,20 @@ socket.on('connect', function () {
     document.getElementById('scndqa').innerHTML = gvar.data.answer2;
     document.getElementById('thrdqa').innerHTML = gvar.data.answer3;
     document.getElementById('frthqa').innerHTML = gvar.data.answer4;
-    updateTimer();
   });
   document.getElementById('answer1').style.visibility = 'visible';
   document.getElementById('answer2').style.visibility = 'visible';
   document.getElementById('answer3').style.visibility = 'visible';
   document.getElementById('answer4').style.visibility = 'visible';
 });
-function updateTimer() {
-  time = 20;
-  timer = setInterval(function () {
-    time -= 1;
-    document.getElementById('num').textContent = ' ' + time;
-    if (time == 0) {
-      socket.emit('timeUp');
-    }
-  }, 1000);
-}
+
 socket.on('noGameFound', function () {
   window.location.href = '../../'; //Redirect user to 'join game' page
 });
 
 function answerSubmitted(num) {
-  clearInterval(timer);
-  document.getElementById('timerText').style.display = 'none';
+  // clearInterval(timer);
+  // document.getElementById('timerText').style.display = 'none';
 
   if (playerAnswered == false) {
     playerAnswered = true;
@@ -69,6 +62,7 @@ socket.on('answerResult', function (data) {
 });
 
 socket.on('questionOver', function (data) {
+  clearInterval(timer);
   if (correct == true) {
     document.body.style.backgroundColor = '#4CAF50';
     document.getElementById('message').style.display = 'block';
@@ -78,9 +72,8 @@ socket.on('questionOver', function (data) {
     document.getElementById('message').style.display = 'block';
     document.getElementById('message').innerHTML = 'Incorrect!';
   }
-  clearInterval(timer);
+
   document.getElementById('timerText').style.display = 'none';
-  // document.getElementById('qstn').style.visibility = 'hidden';
   document.getElementById('answer1').style.visibility = 'hidden';
   document.getElementById('answer2').style.visibility = 'hidden';
   document.getElementById('answer3').style.visibility = 'hidden';
@@ -93,10 +86,10 @@ socket.on('newScore', function (data) {
 });
 
 socket.on('nextQuestionPlayer', function (data) {
+  updateTimer();
   gvar = data;
   correct = false;
   playerAnswered = false;
-  console.log(data);
   document.getElementById('question').innerHTML = gvar.data.question;
   document.getElementById('frstqa').innerHTML = gvar.data.answer1;
   document.getElementById('scndqa').innerHTML = gvar.data.answer2;
@@ -109,9 +102,10 @@ socket.on('nextQuestionPlayer', function (data) {
   document.getElementById('answer4').style.visibility = 'visible';
   document.getElementById('message').style.display = 'none';
   document.body.style.backgroundColor = 'white';
+
   document.getElementById('timerText').style.display = 'block';
-  document.getElementById('num').innerHTML = ' 20';
-  updateTimer();
+  document.getElementById('num').innerHTML = '20';
+  //updateTimer();
 });
 
 socket.on('hostDisconnect', function () {
@@ -136,9 +130,20 @@ socket.on('GameOver', function () {
   document.getElementById('answer4').style.visibility = 'hidden';
   document.getElementById('message').style.display = 'block';
   document.getElementById('message').innerHTML = 'GAME OVER';
-  document.getElementById('qstn').style.display = 'none';
+  document.getElementById('qstn').style.visibility = 'hidden';
 });
-
+function updateTimer() {
+  time = 20;
+  timer = setInterval(function () {
+    time -= 1;
+    document.getElementById('num').textContent = ' ' + time;
+    if (time == 0) {
+      //socket.emit('timeUp');
+      clearInterval(timer);
+      document.getElementById('timerText').style.display = 'none';
+    }
+  }, 1000);
+}
 // function gamess() {
 //   socket.emit('host-join-game', params);
 // }
