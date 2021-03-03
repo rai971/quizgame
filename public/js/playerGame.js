@@ -17,7 +17,6 @@ socket.on('connect', function () {
   socket.on('currentQuestion', function (data) {
     updateTimer();
     gvar = data;
-    console.log(data);
     document.getElementById('question').innerHTML = gvar.data.question;
     document.getElementById('frstqa').innerHTML = gvar.data.answer1;
     document.getElementById('scndqa').innerHTML = gvar.data.answer2;
@@ -82,6 +81,7 @@ socket.on('questionOver', function (data) {
 });
 
 socket.on('newScore', function (data) {
+  console.log(data);
   document.getElementById('scoreText').innerHTML = 'Score: ' + data;
 });
 
@@ -113,6 +113,7 @@ socket.on('hostDisconnect', function () {
 });
 
 socket.on('playerGameData', function (data) {
+  console.log(data);
   for (var i = 0; i < data.length; i++) {
     if (data[i].playerId == socket.id) {
       document.getElementById('nameText').innerHTML = 'Name: ' + data[i].name;

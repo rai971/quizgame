@@ -134,7 +134,9 @@ function updateTimer() {
     }
   }, 1000);
 }
+
 socket.on('GameOver', function (data) {
+  console.log(data);
   document.getElementById('nextQButton').style.display = 'none';
   document.getElementById('square1').style.display = 'none';
   document.getElementById('square2').style.display = 'none';
@@ -152,15 +154,15 @@ socket.on('GameOver', function (data) {
   document.getElementById('winner1').style.display = 'block';
   document.getElementById('winner2').style.display = 'block';
   document.getElementById('winner3').style.display = 'block';
-  document.getElementById('winner4').style.display = 'block';
-  document.getElementById('winner5').style.display = 'block';
+  // document.getElementById('winner4').style.display = 'block';
+  // document.getElementById('winner5').style.display = 'block';
   document.getElementById('winnerTitle').style.display = 'block';
 
   document.getElementById('winner1').innerHTML = '1. ' + data.num1;
   document.getElementById('winner2').innerHTML = '2. ' + data.num2;
   document.getElementById('winner3').innerHTML = '3. ' + data.num3;
-  document.getElementById('winner4').innerHTML = '4. ' + data.num4;
-  document.getElementById('winner5').innerHTML = '5. ' + data.num5;
+  // document.getElementById('winner4').innerHTML = '4. ' + data.num4;
+  // document.getElementById('winner5').innerHTML = '5. ' + data.num5;
 });
 
 socket.on('getTime', function (player) {
