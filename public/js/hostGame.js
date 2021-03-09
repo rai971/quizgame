@@ -118,12 +118,12 @@ function nextQuestion() {
 
   document.getElementById('playersAnswered').style.display = 'block';
   document.getElementById('timerText').style.display = 'block';
-  document.getElementById('num').innerHTML = ' 20';
+  document.getElementById('num').innerHTML = ' 30';
   socket.emit('nextQuestion'); //Tell server to start new question
 }
 
 function updateTimer() {
-  time = 20;
+  time = 30;
   timer = setInterval(function () {
     time -= 1;
     document.getElementById('num').textContent = ' ' + time;
@@ -154,15 +154,14 @@ socket.on('GameOver', function (data) {
   document.getElementById('winner1').style.display = 'block';
   document.getElementById('winner2').style.display = 'block';
   document.getElementById('winner3').style.display = 'block';
-  // document.getElementById('winner4').style.display = 'block';
-  // document.getElementById('winner5').style.display = 'block';
   document.getElementById('winnerTitle').style.display = 'block';
 
-  document.getElementById('winner1').innerHTML = '1. ' + data.num1;
-  document.getElementById('winner2').innerHTML = '2. ' + data.num2;
-  document.getElementById('winner3').innerHTML = '3. ' + data.num3;
-  // document.getElementById('winner4').innerHTML = '4. ' + data.num4;
-  // document.getElementById('winner5').innerHTML = '5. ' + data.num5;
+  document.getElementById('winner1').innerHTML =
+    '1. ' + data.num1 + '(' + data.num1score + ')';
+  document.getElementById('winner2').innerHTML =
+    '2. ' + data.num2 + '(' + data.num2score + ')';
+  document.getElementById('winner3').innerHTML =
+    '3. ' + data.num3 + '(' + data.num3score + ')';
 });
 
 socket.on('getTime', function (player) {

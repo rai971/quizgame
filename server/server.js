@@ -429,13 +429,19 @@ io.on('connection', (socket) => {
                 }
               }
             }
+            //   io.to(game.pin).emit('GameOver', first, second, third);
 
             io.to(game.pin).emit('GameOver', {
               num1: first.name,
+              num1score: first.score,
               num2: second.name,
+              num2score: second.score,
               num3: third.name,
+              num3score: third.score,
               num4: fourth.name,
+              num4score: fourth.score,
               num5: fifth.name,
+              num5score: fifth.score,
             });
           }
         });
@@ -453,7 +459,6 @@ io.on('connection', (socket) => {
   socket.on('requestDbNames', function () {
     MongoClient.connect(url, function (err, db) {
       if (err) throw err;
-
       var dbo = db.db('kahootDB');
       dbo
         .collection('kahootGames')
@@ -468,6 +473,7 @@ io.on('connection', (socket) => {
 
   socket.on('newQuiz', function (data) {
     MongoClient.connect(url, function (err, db) {
+      console.log(db);
       if (err) throw err;
       var dbo = db.db('kahootDB');
       dbo
