@@ -5,7 +5,8 @@ body {
   margin: 0;
 }
 * {
-  color: white !important;
+  color: #fff900 !important;
+  font-family: 'Raleway', sans-serif !important;
 }
 body {
   background-image: url('../img/lv3.jpg');
