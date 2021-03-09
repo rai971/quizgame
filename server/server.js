@@ -252,13 +252,12 @@ io.on('connection', (socket) => {
               game.gameData.questionLive = false; //Question has been ended bc players all answered under time
               var playerData = players.getPlayers(game.hostId);
               io.to(game.pin).emit('questionOver', playerData, correctAnswer); //Tell everyone that question is over
-            } else {
-              //update host screen of num players answered
-              io.to(game.pin).emit('updatePlayersAnswered', {
-                playersInGame: playerNum.length,
-                playersAnswered: game.gameData.playersAnswered,
-              });
             }
+            //update host screen of num players answered
+            io.to(game.pin).emit('updatePlayersAnswered', {
+              playersInGame: playerNum.length,
+              playersAnswered: game.gameData.playersAnswered,
+            });
 
             db.close();
           });
