@@ -7,7 +7,7 @@ var time = 20;
 var timer;
 var gvar;
 var params = jQuery.deparam(window.location.search); //Gets the id from url
-
+var selectedOption = 1;
 socket.on('connect', function () {
   //Tell server that it is host connection from game view
   console.log('Player Connected..');
@@ -39,7 +39,7 @@ function answerSubmitted(num) {
 
   if (playerAnswered == false) {
     playerAnswered = true;
-
+    selectedOption = num;
     socket.emit('playerAnswer', num); //Sends player answer to server
 
     //Hiding buttons from user
@@ -120,16 +120,15 @@ socket.on('questionOver', function (data, correctOption) {
     document.body.style.backgroundColor = '#F94A1E';
     document.getElementById('message').style.display = 'block';
     document.getElementById('message').innerHTML = 'Incorrect!';
-    var selectedAns = document.getElementById(
-      'answer' + data[0].gameData['answer']
-    ).innerHTML;
+    var selectedAns = document.getElementById('answer' + selectedOption)
+      .innerHTML;
     var correctAns = document.getElementById('answer' + correctOption)
       .innerHTML;
     console.log(correctAns);
     console.log(selectedAns);
     document.getElementById('answer' + correctOption).innerHTML =
       '&#10004' + ' ' + correctAns;
-    document.getElementById('answer' + data[0].gameData['answer']).innerHTML =
+    document.getElementById('answer' + selectedOption).innerHTML =
       '&#10060 ' + ' ' + selectedAns;
   }
   document.getElementById('timerText').style.display = 'none';
